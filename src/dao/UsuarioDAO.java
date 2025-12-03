@@ -47,7 +47,7 @@ public class UsuarioDAO {
     }
 
     public void deletar(int idUsuario) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
+        String sql = "DELETE FROM usuarios WHERE idUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -63,7 +63,7 @@ public class UsuarioDAO {
     }
 
     public Usuario buscarPorId(int idUsuario) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        String sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

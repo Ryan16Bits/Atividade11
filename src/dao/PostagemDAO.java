@@ -1,6 +1,7 @@
 package dao;
 
 import model.Postagem;
+import model.Usuario;
 import util.ConexaoBD;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class PostagemDAO {
     public void salvar(Postagem postagem) {
-        String sql = "INSERT INTO postagens (fkIdUsuario,conteudo) VALUES (?,?);";
+        String sql = "INSERT INTO postagens (fkIdUsuario,conteudo) VALUES (?,?)";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -23,12 +24,12 @@ public class PostagemDAO {
 
             System.out.println("Postagem salva com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao inserir: " + e.getMessage());
+            System.out.println("Erro ao postar: " + e.getMessage());
         }
     }
 
     public void atualizar(Postagem postagem) {
-        String sql = "UPDATE postagem SET fkIdUsuario = ?, conteudo = ? WHERE id = ?";
+        String sql = "UPDATE postagens SET fkIdUsuario = ?, conteudo = ? WHERE idPostagem = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -36,57 +37,72 @@ public class PostagemDAO {
             stmt.setInt(1,postagem.getFkIdUsuario());
             stmt.setString(2,postagem.getConteudo());
 
-            stmt.setInt(4,postagem.getIdPostagem());
+            stmt.setInt(3,postagem.getIdPostagem());
 
             stmt.executeUpdate();
 
-            System.out.println("Postagem atualizado!");
+            System.out.println("Postagem atualizada!");
         } catch (Exception e) {
             System.out.println("Erro ao atualizar: " + e.getMessage());
         }
     }
 
-    public void deletar(int idUsuario) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
+    public void deletar(int idPostagem) {
+        String sql = "DELETE FROM postagens WHERE idPostagem = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1,idUsuario);
+            stmt.setInt(1,idPostagem);
 
             stmt.executeUpdate();
 
-            System.out.println("Usuário deletado!");
+            System.out.println("Postagem deletada!");
         } catch (Exception e) {
-            System.out.println("Erro ao deleter: " + e.getMessage());
+            System.out.println("Erro ao deletar: " + e.getMessage());
         }
     }
 
-    public void buscarPorId(int idUsuario) {
-        String sql = "SELECT FRPM usuarios WHERE id = ?";
+    public Postagem buscarPorId(int idPostagem) {
+        String sql = "SELECT * FROM postagens WHERE idPostagem = ?";
+
+        try (Connection conn = ConexaoBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            stmt.setInt(1,idPostagem);
+
+            return new Postagem(
+                    rs.getInt("idPostagem"),
+                    rs.getInt("fkIdUsuario"),
+                    rs.getString("conteudo"),
+                    rs.getDate("dataPostagem").toLocalDate()
+            );
+        } catch (Exception e) {
+            System.out.println("Erro ao listar: " + e.getMessage());
+        }
+        return null;
     }
 
-    public List<Usuario> listarTodos() {
-        List<Usuario> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios";
+    public List<Postagem> listarTodos() {
+        List<Postagem> lista = new ArrayList<>();
+        String sql = "SELECT * FROM postagens";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Usuario u = new Usuario(
-                        rs.getInt("idUsuario"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha"),
-                        rs.getDate("dataCadastro").toLocalDate()
+                Postagem p = new Postagem(
+                        rs.getInt("idPostagem"),
+                        rs.getInt("fkIdUsuario"),
+                        rs.getString("conteudo"),
+                        rs.getDate("dataPostagem").toLocalDate()
                 );
-                lista.add(u);
+                lista.add(p);
             }
         } catch (Exception e) {
             System.out.println("Erro ao listar: " + e.getMessage());
         }
         return lista;
     }
-}
 }

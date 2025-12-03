@@ -59,8 +59,4 @@ public class Direct {
     public LocalDate getDataEnvio() {
         return dataEnvio;
     }
-
-    public void setDataEnvio(LocalDate dataEnvio) {
-        this.dataEnvio = dataEnvio;
-    }
 }

@@ -48,8 +48,4 @@ public class Postagem {
     public LocalDate getDataPostagem() {
         return dataPostagem;
     }
-
-    public void setDataPostagem(LocalDate dataPostagem) {
-        this.dataPostagem = dataPostagem;
-    }
 }

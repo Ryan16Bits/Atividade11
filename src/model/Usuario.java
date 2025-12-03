@@ -59,8 +59,4 @@ public class Usuario {
     public LocalDate getDataCadastro(){
         return dataCadastro;
     }
-
-    public void setDataCadastro(LocalDate dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
 }

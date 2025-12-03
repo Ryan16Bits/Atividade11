@@ -48,8 +48,4 @@ public class Curtida {
     public LocalDate getDataCurtida() {
         return dataCurtida;
     }
-
-    public void setDataCurtida(LocalDate dataCurtida) {
-        this.dataCurtida = dataCurtida;
-    }
 }
