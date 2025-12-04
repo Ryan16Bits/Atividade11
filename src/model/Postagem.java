@@ -8,13 +8,13 @@ public class Postagem {
     private String conteudo;
     private LocalDate dataPostagem;
 
-    public Postagem(int fkIdUsuario,String conteudo,LocalDate dataPostagem) {
+    public Postagem(int fkIdUsuario,String conteudo) {
         this.fkIdUsuario = fkIdUsuario;
         this.conteudo = conteudo;
         this.dataPostagem = dataPostagem;
     }
 
-    public Postagem(int idPostagem, int fkIdUsuario,String conteudo,LocalDate dataPostagem) {
+    public Postagem(int idPostagem, int fkIdUsuario,String conteudo) {
         this.idPostagem = idPostagem;
         this.fkIdUsuario = fkIdUsuario;
         this.conteudo = conteudo;

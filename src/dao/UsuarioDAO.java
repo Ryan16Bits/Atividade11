@@ -6,7 +6,6 @@ import util.ConexaoBD;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class UsuarioDAO {
     public void salvar(Usuario usuario) {
@@ -28,7 +27,7 @@ public class UsuarioDAO {
     }
 
     public void atualizar(Usuario usuario) {
-        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE idUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -75,8 +74,7 @@ public class UsuarioDAO {
                     rs.getInt("idUsuario"),
                     rs.getString("nome"),
                     rs.getString("email"),
-                    rs.getString("senha"),
-                    rs.getDate("dataCadastro").toLocalDate()
+                    rs.getString("senha")
             );
         } catch (Exception e) {
             System.out.println("Erro ao listar: " + e.getMessage());
@@ -96,8 +94,7 @@ public class UsuarioDAO {
                         rs.getInt("idUsuario"),
                         rs.getString("nome"),
                         rs.getString("email"),
-                        rs.getString("senha"),
-                        rs.getDate("dataCadastro").toLocalDate()
+                        rs.getString("senha")
                 );
                 lista.add(u);
             }

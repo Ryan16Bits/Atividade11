@@ -20,7 +20,7 @@ public class CurtidaDAO {
 
             stmt.executeUpdate();
 
-            System.out.println("Postagem!");
+            System.out.println("Postagem curtida!");
         } catch (Exception e) {
             System.out.println("Erro ao curtir: " + e.getMessage());
         }
@@ -47,11 +47,12 @@ public class CurtidaDAO {
         String sql = "SELECT fkIdPostagem, fkIdUsuario FROM curtidas WHERE fkIdPostagem = ?, fkIdUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, fkIdPostagem);
             stmt.setInt(2, fkIdUsuario);
+
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return true;

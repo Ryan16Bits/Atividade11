@@ -75,28 +75,30 @@ public class PostagemDAO {
             return new Postagem(
                     rs.getInt("idPostagem"),
                     rs.getInt("fkIdUsuario"),
-                    rs.getString("conteudo"),
-                    rs.getDate("dataPostagem").toLocalDate()
-            );
+                    rs.getString("conteudo")
+                    );
         } catch (Exception e) {
             System.out.println("Erro ao listar: " + e.getMessage());
         }
         return null;
     }
 
-    public List<Postagem> listarTodos() {
+    public List<Postagem> listarPorUsuario(int fkIdUsuario) {
         List<Postagem> lista = new ArrayList<>();
-        String sql = "SELECT * FROM postagens";
+        String sql = "SELECT * FROM postagens WHERE fkIdUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1,fkIdUsuario);
+
+            ResultSet rs = stmt.executeQuery();
+
             while (rs.next()) {
                 Postagem p = new Postagem(
                         rs.getInt("idPostagem"),
                         rs.getInt("fkIdUsuario"),
-                        rs.getString("conteudo"),
-                        rs.getDate("dataPostagem").toLocalDate()
+                        rs.getString("conteudo")
                 );
                 lista.add(p);
             }
