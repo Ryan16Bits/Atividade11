@@ -4,6 +4,7 @@ import dao.CurtidaDAO;
 import dao.DirectDAO;
 import dao.PostagemDAO;
 import dao.UsuarioDAO;
+import model.Direct;
 import model.Postagem;
 import model.Usuario;
 
@@ -136,14 +137,68 @@ public class Main {
 
                 if (cdao.verificarSeJaCurtiu(fkIdPostagem, fkIdUsuario) == true) {
                     System.out.println("O usuário já curtiu a postagem!");
-                }
-                {
+                } else {
                     System.out.println("O usuário não curtiu");
                     cdao.curtir(fkIdPostagem,fkIdUsuario);
                 }
-            }
+            } if (escolha == 9) {
+                System.out.println("===DESCURTIR POSTAGEM===");
 
-            else {
+                System.out.println("Digite a postagem: ");
+                int fkIdPostagem = sc.nextInt();
+
+                System.out.println("-------------");
+                System.out.println("Digite o ID do usuário: ");
+                int fkIdUsuario = sc.nextInt();
+
+                if (cdao.verificarSeJaCurtiu(fkIdPostagem, fkIdUsuario) == true) {
+                    cdao.descurtir(fkIdPostagem,fkIdUsuario);
+                } else {
+                    System.out.println("A postagem não está curtida!");
+                }
+            } if (escolha == 10) {
+                System.out.println("===MOSTRAR QUANTIDADE DE CURTIDAS===");
+
+                System.out.println("Digite a postagem: ");
+                int fkIdPostagem = sc.nextInt();
+
+                System.out.println("A postagem tem " + cdao.contarCurtidas(fkIdPostagem) + " curtida(s).");
+            } if (escolha == 11) {
+                System.out.println("===ENVIAR DIRECT===");
+
+                System.out.println("Digite o ID do usuário remetente: ");
+                int fkIdRemetente = sc.nextInt();
+
+                System.out.println("-------------");
+                System.out.println("Digite o ID do usuário destinatário: ");
+                int fkIdDestinatario = sc.nextInt();
+                sc.nextLine();
+
+                System.out.println("-------------");
+                System.out.println("Digite a mensagem: ");
+                String mensagem = sc.nextLine();
+
+                if (fkIdDestinatario == fkIdRemetente) {
+                    System.out.println("Não é possível enviar mensagens para si mesmo!");
+                } else {
+                    Direct novo = new Direct(fkIdRemetente, fkIdDestinatario, mensagem);
+                    ddao.enviarMensagem(novo);
+                }
+            } if (escolha == 12) {
+                System.out.println("===LISTAR DIRECT ENTRE DOIS USUÁRIOS===");
+
+                System.out.println("Digite o ID do usuário remetente: ");
+                int fkIdRemetente = sc.nextInt();
+
+                System.out.println("-------------");
+                System.out.println("Digite o ID do usuário destinatário: ");
+                int fkIdDestinatario = sc.nextInt();
+                sc.nextLine();
+
+                for (Direct d : ddao.listarMensagens(fkIdRemetente,fkIdDestinatario)) {
+                    System.out.println(d.getFkIdRemetente() + " - " + d.getFkIdDestinatario() + " - " + d.getMensagem());
+                }
+            } else {
                 fechar = true;
             }
         }

@@ -6,6 +6,8 @@ import util.ConexaoBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DirectDAO {
     public void enviarMensagem(Direct direct) {
@@ -26,26 +28,30 @@ public class DirectDAO {
         }
     }
 
-    public Direct listarMensagens(int fkIdRemetente, int fkIdDestinatario) {
-        String sql = "SELECT * FROM direct WHERE fkIdRemetente = ?, fkIdDestinatario = ?";
+    public List<Direct> listarMensagens(int fkIdRemetente, int fkIdDestinatario) {
+        List<Direct> lista = new ArrayList<>();
+        String sql = "SELECT * FROM direct WHERE fkIdRemetente = ? AND fkIdDestinatario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1,fkIdRemetente);
             stmt.setInt(2,fkIdDestinatario);
 
-            return new Direct(
-                    rs.getInt("idDirect"),
-                    rs.getInt("fkIdRemetente"),
-                    rs.getInt("fkIdDestinatario"),
-                    rs.getString("mensagem"),
-                    rs.getDate("dataEnvio").toLocalDate()
-            );
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Direct d = new Direct(
+                        rs.getInt("idDirect"),
+                        rs.getInt("fkIdRemetente"),
+                        rs.getInt("fkIdDestinatario"),
+                        rs.getString("mensagem")
+                );
+                lista.add(d);
+            }
         } catch (Exception e) {
             System.out.println("Erro ao lister: " + e.getMessage());
         }
-        return null;
+        return lista;
     }
 }

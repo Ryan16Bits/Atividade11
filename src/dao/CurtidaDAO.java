@@ -26,8 +26,8 @@ public class CurtidaDAO {
         }
     }
 
-    public void descutir(int fkIdPostagem, int fkIdUsuario) {
-        String sql = "DELETE FROM curtidas WHERE fkIdPostagem = ?, fkIdUsuario = ?";
+    public void descurtir(int fkIdPostagem, int fkIdUsuario) {
+        String sql = "DELETE FROM curtidas WHERE fkIdPostagem = ? AND fkIdUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -44,7 +44,7 @@ public class CurtidaDAO {
     }
 
     public boolean verificarSeJaCurtiu(int fkIdPostagem, int fkIdUsuario) {
-        String sql = "SELECT fkIdPostagem, fkIdUsuario FROM curtidas WHERE fkIdPostagem = ?, fkIdUsuario = ?";
+        String sql = "SELECT fkIdPostagem, fkIdUsuario FROM curtidas WHERE fkIdPostagem = ? AND fkIdUsuario = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -70,10 +70,11 @@ public class CurtidaDAO {
         int contagem = 0;
 
         try (Connection conn = ConexaoBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, fkIdPostagem);
+
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 contagem = rs.getInt("likes");

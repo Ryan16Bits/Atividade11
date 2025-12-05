@@ -9,14 +9,14 @@ public class Direct {
     private String mensagem;
     private LocalDate dataEnvio;
 
-    public Direct(int fkIdRemetente,int fkIdDestinatario,String mensagem,LocalDate dataEnvio) {
+    public Direct(int fkIdRemetente,int fkIdDestinatario,String mensagem) {
         this.fkIdRemetente = fkIdRemetente;
         this.fkIdDestinatario = fkIdDestinatario;
         this.mensagem = mensagem;
         this.dataEnvio = dataEnvio;
     }
 
-    public Direct(int idDirect,int fkIdRemetente,int fkIdDestinatario,String mensagem,LocalDate dataEnvio) {
+    public Direct(int idDirect,int fkIdRemetente,int fkIdDestinatario,String mensagem) {
         this.idDirect = idDirect;
         this.fkIdRemetente = fkIdRemetente;
         this.fkIdDestinatario = fkIdDestinatario;
