@@ -58,10 +58,10 @@ public class Main {
             } else if (escolha == 2) {
                 System.out.println("===LISTAR USUÁRIO===");
 
-                System.out.println("ID - Nome - Email - Senha - Data de Cadastro");
+                System.out.println("ID - Nome - Email");
                 System.out.println("-------------");
                 for (Usuario u : udao.listarTodos()) {
-                    System.out.println(u.getIdUsuario() + " - " + u.getNome() + " - " + u.getEmail() + " - " + u.getSenha() + " - " + u.getDataCadastro());
+                    System.out.println(u.getIdUsuario() + " - " + u.getNome() + " - " + u.getEmail());
                 }
             } else if (escolha == 3) {
                 System.out.println("===ATUALIZAR USUÁRIO===");
@@ -115,7 +115,7 @@ public class Main {
                 sc.nextLine();
 
                 for (Postagem p : pdao.listarPorUsuario(fkIdUsuario)) {
-                    System.out.println(p.getIdPostagem() + " - " + p.getFkIdUsuario() + " - " + p.getConteudo() + " - " + p.getDataPostagem());
+                    System.out.println(p.getIdPostagem() + " - " + p.getFkIdUsuario() + " - " + p.getConteudo());
                 }
             } if (escolha == 7) {
                 System.out.println("===DELETAR POSTAGEM===");
